@@ -9,6 +9,7 @@
 * @par History  见如下说明
 *
 */
+#include <Arduino.h>
 #include <Adafruit_PWMServoDriver.h>
 #include <Adafruit_NeoPixel.h> //库文件
 #include <Adafruit_GFX.h>
@@ -80,7 +81,7 @@ int newtime = 0;//记录系统当前时间
 int lasttime = 0;//记录上一次系统时间标记点
 
 /*小车初始速度控制*/
-static int CarSpeedControl = 150;
+static int CarSpeedControl = 50;
 
 /*串口数据设置*/
 int IncomingByte = 0;			 //接收到的 data byte
@@ -532,7 +533,7 @@ void serial_data_parse()
 		//小车加减速判断
 		if (InputString[3] == '1') //加速，每次加50
 		{
-			CarSpeedControl += 50;
+			CarSpeedControl += 10;
 			if (CarSpeedControl > 150)
 			{
 				CarSpeedControl = 150;
@@ -543,10 +544,10 @@ void serial_data_parse()
 		}
 		if (InputString[3] == '2') //减速，每次减50
 		{
-			CarSpeedControl -= 50;
-			if (CarSpeedControl < 50)
+			CarSpeedControl -= 10;
+			if (CarSpeedControl < 20)
 			{
-				CarSpeedControl = 50;
+				CarSpeedControl = 20;
 			}
 			InputString = ""; //清空串口数据
 			NewLineReceived = false;
